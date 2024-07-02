@@ -1,0 +1,66 @@
+//Excercise 1.4
+
+//DEADLOCK = STOP. 
+// there is no other state to be executed other than the deadlock state
+
+//RHYME = ( one -> two -> buckle -> my -> shoe -> STOP ). 
+//state change from one -> two -> buckle -> my ->shoe and then the state comes to a deadlock
+
+//DRINKS = (   red  -> coffee -> DRINKS | blue -> tea    -> DRINKS ) . 
+//if red is pressed the state will be changed to coffee or if the blue is prtessed 
+
+//COINTOSS = ( toss -> (    head -> COINTOSS  | tail -> COINTOSS ) ). 
+//the coin state machine in where after a toss action, the next action could be either heads or tails, not control by the outside env
+
+//CHANGE = ( fivep -> (   onep -> onep -> onep -> onep -> onep -> CHANGE | twop -> twop -> onep -> CHANGE )  ).
+//the Change state machine in where after fivep action either onep or two p could be selected and with the selection of onep it will iterate for 4 times and change the state back to fivep and if twop is changed and is iterated for 2 times over twop 
+//and the state could be changed to onep and it will come back to the fivep state
+
+
+
+//Exercise 1.5
+
+////DEADLOCK = STOP. 
+//Alphabet : {}
+//Transitions :DEADLOCK = Q0,
+//				   Q0	= STOP.
+//traces(DEADLOCK) : {<>}
+//deadlocked: yes
+// trace to DEADLOCK : <>
+
+
+////RHYME = ( one -> two -> buckle -> my -> shoe -> STOP ).
+//Alphabet(RHYME) : {buckle, my, one, shoe, two}
+//Transitions :RHYME = Q0,
+//			Q0	= (one -> Q1),
+//			Q1	= (two -> Q2),
+//			Q2	= (buckle -> Q3),
+//			Q3	= (my -> Q4),
+//			Q4	= (shoe -> Q5),
+//			Q5	= STOP.
+//traces(RHYME) : {<>,  < one >, < one, two >, < one, two, buckle >, < one, two, buckle, my >, < one, two, buckle, my, shoe > }
+//deadlocked: yes
+// trace to DEADLOCK : <buckle, my, one, shoe, two>
+
+
+//DRINKS = (   red  -> coffee -> DRINKS | blue -> tea    -> DRINKS ) . 
+//Alphabet(DRINKS) : {blue, coffee, red, tea}
+//Transitions :DRINKS = Q0,
+//             Q0	= (blue -> Q1  |red -> Q2),
+//             Q1	= (tea -> Q0),
+//             Q2	= (coffee -> Q0).
+//traces(DRINKS) : {<>, <blue>, < blue,coffee >, < blue,coffee,red >, < blue,coffee, red, tea >}
+//deadlocked: yes
+// trace to DEADLOCK : <blue,coffee, red, tea>
+
+
+COINTOSS = ( toss -> (    head -> COINTOSS  | tail -> COINTOSS ) ).
+//Alphabet(DRINKS) : {blue, coffee, red, tea}
+//Transitions :DRINKS = Q0,
+//             Q0	= (blue -> Q1  |red -> Q2),
+//             Q1	= (tea -> Q0),
+//             Q2	= (coffee -> Q0).
+//traces(DRINKS) : {<>, <blue>, < blue,coffee >, < blue,coffee,red >, < blue,coffee, red, tea >}
+//deadlocked: yes
+// trace to DEADLOCK : <blue,coffee, red, tea> 
+

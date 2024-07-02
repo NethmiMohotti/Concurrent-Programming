@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="week5">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/ThreadScheduling.zip!/" />
+      <root url="jar://$PROJECT_DIR$/TicketMachine.zip!/" />
+      <root url="jar://$PROJECT_DIR$/Tutorial1.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

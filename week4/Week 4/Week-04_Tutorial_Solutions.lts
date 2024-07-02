@@ -1,0 +1,332 @@
+/* ********************************************
+   6SENG006W Concurrent Programming
+   Sample Solutions for Week 04 Tutorial   
+   Exercises: 4.1 - 4.7
+   16/10/22
+******************************************** */
+
+///////////////////////////////////////////////////////////////
+// Exercise 4.1 - FSP Design & Analysis forms 
+///////////////////////////////////////////////////////////////
+
+// See the DRINKS example Design Form.
+// Most of the required attributes were collated in the previous tutorials.
+
+// 
+/*
+ 
+COINTOSS = ( toss -> (    head -> COINTOSS  
+		       | tail -> COINTOSS ) 
+           ) .
+// 
+*/
+
+// 
+/*
+
+PERSON = (    weekend -> sleep -> (   shop -> PERSON 
+                                    | play  -> PERSON )
+           |
+              weekday -> sleep -> work -> PERSON 
+         ) .
+// 
+*/
+
+
+//  See the DRINKS example form.
+// 
+/*
+
+DRINKS = (   red  -> coffee -> DRINKS
+           | blue -> tea    -> DRINKS
+         ) .
+// 
+*/
+
+// 
+/*
+
+CHANGE = ( fivep -> (   onep -> onep -> onep -> onep -> onep -> CHANGE
+                      | 
+                        twop -> twop -> onep -> CHANGE ) 
+         ) . 
+// 
+*/
+
+
+///////////////////////////////////////////////////////////////////
+// Exercise 4.2 -coin tossing processes
+///////////////////////////////////////////////////////////////////
+
+// This is about nondeterministic vs. deterministic processes.
+
+//  /*
+TOSS1 = (   toss -> heads -> TOSS1
+          | toss -> tails -> TOSS1
+        ).
+
+// */
+
+//  /*
+TOSS2 = (   toss -> (   heads -> TOSS2
+                      | tails -> TOSS2 )
+        ).
+// */
+
+
+/*
+Comparison:
+
+Alphabet( TOSS1 ) =  Alphabet( TOSS2 ) =  { toss, heads, tails }   
+
+Transitions:
+	TOSS1 = Q0,
+	Q0	  = (  toss -> Q1
+		     | toss -> Q2 ),
+	Q1	  = ( tails -> Q0 ),
+	Q2	  = ( heads -> Q0 ).
+
+Transitions:
+	TOSS2 = Q0,
+	Q0	  = ( toss -> Q1 ),
+	Q1	  = ( { heads, tails } -> Q0 ).
+
+
+traces( TOSS1 ) =  traces( TOSS2 ) =  
+   { <>, < toss >, 
+         < toss, heads >, < toss, heads, toss >, < toss, heads, toss, heads >, ...
+                                                 < toss, heads, toss, tails >, ...
+ 
+         < toss, tails >, < toss, tails, toss >, < toss, tails, toss, heads >, ...
+                                                 < toss, tails, toss, tails >, ...
+          }
+
+For both:
+
+DEADLOCKS: no     
+
+Trace to DEADLOCK: none.
+
+
+The alphabets, traces, absence of deadlock is the same for both TOSS1 & TOSS2.
+
+The difference is in the transitions of the 2 processes, in TOSS1 the choice 
+is nondeterministic as there is a choice between 2 toss actions, after one of 
+them has been chosen either only a heads or only a tails action is possible, 
+not both.
+
+In TOSS2 there is a single toss action followed by a deterministic choice between 
+2 actions different actions, that is a heads & a tails action is possible.
+
+So TOSS1 is a nondeterministic process & TOSS2 is a deterministic process.
+
+An important point is that this important difference can not be determined by  
+just looking at the traces of the two processes, as they are the same.
+
+*/
+
+
+
+//  
+|| TOSS_12 = ( TOSS1 || TOSS2 ).
+
+//  
+|| TOSS_11 = ( TOSS1 || TOSS1 ).
+
+//  
+|| TOSS_22 = ( TOSS2 || TOSS2 ).
+
+/*  
+However, when the 2 processes are run in parallel the differences become much 
+clearer.
+
+For TOSS_12, the 3 alphabets, traces, absense of deadlock are the same.
+However, TOSS_12 LTS graph & transitions are the same as TOSS1's & different to 
+TOSS2's. Again note that it does not deadlock & its transitions indicate that it 
+is a nondeterministic process.
+
+Transitions:
+	TOSS_12 = Q0,
+	Q0	= (toss -> Q1
+		  |toss -> Q2),
+	Q1	= (tails -> Q0),
+	Q2	= (heads -> Q0).
+
+
+For TOSS_11, only the 3 alphabets & traces are the same.
+However, TOSS_11 LTS graph & transitions are very different to TOSS1's (& all of the 
+other processes'.  Also TOSS_11 is the only one that can deadlock, e.g. after an initial 
+toss action & its transitions indicate that it offers a 4 way nondeterministic choice of 
+the toss action, with 2 of them resulting in deadlock. 
+
+Transitions:
+	TOSS_11 = Q0,
+	Q0	= (toss -> Q1
+		  |toss -> Q2
+		  |toss -> Q3
+		  |toss -> Q4),
+	Q1	= (tails -> Q0),
+	Q2	= STOP,
+	Q3	= STOP,
+	Q4	= (heads -> Q0).
+
+
+For TOSS_22, all of the above attributes, in particular its LTS graph & 
+transitions are the same as TOSS2's. Note that it does not deadlock & that 
+its transitions indicate that it is a deterministic process.
+
+Transitions:
+	TOSS_22 = Q0,
+	Q0	= (toss -> Q1),
+	Q1	= ({heads, tails} -> Q0).
+
+
+
+Conclusion
+
+An important conclusion form this is that running a nondeterministic process in 
+parallel with itself will result in deadlock being introduced, & can be used 
+as a test for identifying a nondeterministic process.  And in fact this is a  
+Law in some process algebras, e.g. CSP.
+
+
+The above differences are maginifed when more copies of the 2 processes are run 
+in parallel with each other, especially TOSS1.
+
+*/
+
+
+//  
+|| TOSS_1111 = ( TOSS1 || TOSS1 || TOSS1 || TOSS1 ).
+
+//  
+|| TOSS_2222 = ( TOSS2 || TOSS2 || TOSS2 || TOSS2 ).
+
+
+/* 
+
+  QUESTION: What is the chance of getting a heads or tails in TOSS_1111?
+
+*/
+
+
+///////////////////////////////////////////////////////////////
+// Exercise 4.3  - Varaible X process 
+///////////////////////////////////////////////////////////////
+
+
+// 
+/*
+
+X = Y[ 0 ] ,
+
+Y[ i : 0..1 ] =  (   a[ i ]       -> Y[ i ] 
+		   | b[j : 0..1 ] -> Y[ j ] 
+		 ) .
+
+// 
+*/
+
+/*
+What does it represent?
+
+It is a process that represents a simple bit ( 0 or 1) variable. 
+
+The "a[i]" action represents "reading the current value of the variable", i.e. 
+it outputs it current value as represented by "i".
+
+The  "b[j : 0..1 ]" action represents "writing a new value to the variable", 
+i.e. it inputs the new value "j", which becomes it new stored value.
+
+To see this replace "a" by "read" or "getValue" & "b" by "write" or "setValue" 
+or "assign".
+
+
+Look at the transitions, this gives a good insight into what it is doing.
+
+
+*/
+
+// /*
+
+// const Inital_Value = 0
+const N = 5
+
+range INT = 0 .. N
+
+
+Var_X( InitVal = 0 ) = X[ InitVal ] ,
+
+X[ i : INT ] =  (   read[ i ]        -> X[ i ] 
+	          | write[ j : INT ] -> X[ j ] 
+		) .
+
+// */
+
+/*
+What happens if you replace the "1" in its definition by larger numbers? 
+
+The LTS gets much bigger & far more complex, plus it can store a larger range of numbers.
+
+Look at the transitions, this gives a good insight into what it is doing.
+
+*/
+
+
+
+////////////////////////////////////////////////////
+// Exercise 4.4 - Bank Account
+////////////////////////////////////////////////////
+
+/*
+const N = 5
+
+range INT = 0 .. N
+
+
+Var_X( InitVal = 0 ) = X[ InitVal ] ,
+
+X[ i : INT ] =  (   read[ i ]         -> X[ i ] 
+	          | write[ j : INT ]  -> X[ j ] 
+                ) .
+
+const InitBAl = 2
+
+|| BankAccount = ( Var_X( InitBAl ) ) .
+
+*/
+
+///////////////////////////////////////////////////////////////////////
+// Exercise 4.5 - use LTSA animate & explore Week 02 Lecture FSP processes  
+//////////////////////////////////////////////////////////////////////
+
+/*
+   See the Week 02 Lecture FSP processes on the Lectures page: 
+
+   All_L2_processes.lts
+
+*/
+
+
+///////////////////////////////////////////////////////////////////////////
+// Exercise 4.6 - modify constants, ranges, etc of Week 02 Lecture 
+// FSP processes  
+///////////////////////////////////////////////////////////////////////////
+
+/*
+   See the Week 02 Lecture FSP processes: 
+
+   All_L2_processes.lts
+
+   Basically, the number of states & size of the LTS graphs will grow in 
+   number & size.
+
+*/
+
+
+///////////////////////////////////////////////////////////////////////
+///////////////////// End of Week 04 Tutorial Solutions /////////////////////
+///////////////////////////////////////////////////////////////////////
+
+
+

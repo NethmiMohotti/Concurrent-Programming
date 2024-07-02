@@ -1,0 +1,52 @@
+Week 10 Tutorial Solution
+
+Exercise 10.3
+
+ Using the Solution to the Producer/Consumer Problem program 
+ProdConMailboxMonitor, add additional Producer & Consumer threads 
+& modify them as in the previous exercises.
+
+Can you think of a way to coordinate their termination?
+
+Implement each of your ideas by ammending the existing code & 
+testing it to determine if it works. Write a brief description of 
+your termination approach, including the results of your testing. 
+
+
+ANSWER: 
+
+Version 1:
+
+1) Modify the Producer & Consumer so that they put & take until 
+   they are signalled to terminate by the main program.
+
+   So modify their for-loops into while-loops that terminate when a  
+   termination flag is set to true.
+
+   See the example given in Week 07 Lecture, slides 36-39 & 43 using  
+   synchronised methods to get & set the termination flag.
+
+2) This does not work or may very occasionally work, because one 
+   or other of the Producer & Consumer will be stuck in the wait set 
+   & the other one will have terminated, so no thread to wake it up 
+   using notifyAll().
+
+
+Version 2:
+
+1) Main terminates all Producers, ie. p1 & p2, using same approach 
+   as in Version 1.
+
+2) Each Producer then puts a "termination" signal in the 
+   Mailbox that when each consumer takes the signal it terminates.
+
+3) This works provided number of producers >= number of consumer, 
+   i.e. at least 1 "termination" signal for each consumer.  
+
+
+TRY: 
+Experimenting trying some other version. E.g. using version 2 using fewer 
+producers than consumers, what effect does this have? 
+
+
+

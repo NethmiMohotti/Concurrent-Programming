@@ -1,0 +1,33 @@
+//SWITCH = (on -> off -> SWITCH).
+
+//SWITCH = (on -> off -> STOP). //deadlock situation
+
+//SWITCH = ON,
+//ON = (on -> OFF),
+//OFF = (off -> ON).
+
+//TRAFFICLIGHT = (red -> amber -> green -> amber -> TRAFFICLIGHT).
+
+//TRAFFICLIGHTS = RED,
+//RED = (red -> YELLOW),
+//YELLOW = (yellow -> GREEN),
+//GREEN = (green -> YELLOW),
+//YELLOW2 = (yellow -> TRAFFICLIGHTS).
+
+//DRINKS = (red -> nescafe -> DRINKS | blue -> milo -> DRINKS).
+
+//PROCESS = S0 ,
+//S0 = ( red -> S2 | blue -> S1 ) ,
+//S1 = ( tea -> S0 ) ,
+//S2 = ( coffee -> S0 ) .
+
+//PROCESS = S0 ,
+//S0 = ( red -> ( coffee -> S0 ) | blue -> ( tea -> S0 ) ) .
+
+//PROCESS = ( red -> ( coffee -> PROCESS )| blue -> ( tea -> PROCESS ) ) .
+
+
+P1 = ( a -> b -> c -> STOP ) .
+P2 = ( a -> b -> c -> P2 ) .
+P3 = ( a -> b -> c -> STOP | d -> e -> f -> STOP ) .
+P4 = ( a -> b -> P4 | c -> d -> P4 ) .
