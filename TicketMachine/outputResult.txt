@@ -1,0 +1,120 @@
+[2024-01-12 09:04] Printing the ticket... 
+Ticket{
+ TicketId=2
+ TicketPrice=2000
+ PassengerInfo= PassengerInfo {  
+   PassengerName = Kate
+   PhoneNumber = 079272708
+   EmailAddress = kate@gmail.com }
+ TravelInfo= TravelInfo { 
+   Destination = Galle
+   Departure Location = Colombo }
+}
+[2024-01-12 09:04] Ticket printed by Kate
+ Ticket : Ticket{
+ TicketId=2
+ TicketPrice=2000
+ PassengerInfo= PassengerInfo {  
+   PassengerName = Kate
+   PhoneNumber = 079272708
+   EmailAddress = kate@gmail.com }
+ TravelInfo= TravelInfo { 
+   Destination = Galle
+   Departure Location = Colombo }
+} for Kate
+[2024-01-12 09:04] Printing the ticket... 
+Ticket{
+ TicketId=5
+ TicketPrice=3000
+ PassengerInfo= PassengerInfo {  
+   PassengerName = Joey
+   PhoneNumber = 0771234567
+   EmailAddress = joey@gmail.com }
+ TravelInfo= TravelInfo { 
+   Destination = Colombo
+   Departure Location = Panadura }
+}
+[2024-01-12 09:04] Ticket printed by Joey
+ Ticket : Ticket{
+ TicketId=5
+ TicketPrice=3000
+ PassengerInfo= PassengerInfo {  
+   PassengerName = Joey
+   PhoneNumber = 0771234567
+   EmailAddress = joey@gmail.com }
+ TravelInfo= TravelInfo { 
+   Destination = Colombo
+   Departure Location = Panadura }
+} for Joey
+[2024-01-12 09:04] Printing the ticket... 
+Ticket{
+ TicketId=4
+ TicketPrice=2000
+ PassengerInfo= PassengerInfo {  
+   PassengerName = Monica
+   PhoneNumber = 0715226256
+   EmailAddress = monica@gmail.com }
+ TravelInfo= TravelInfo { 
+   Destination = Matara
+   Departure Location = Galle }
+}
+[2024-01-12 09:04] Ticket printed by Monica
+ Ticket : Ticket{
+ TicketId=4
+ TicketPrice=2000
+ PassengerInfo= PassengerInfo {  
+   PassengerName = Monica
+   PhoneNumber = 0715226256
+   EmailAddress = monica@gmail.com }
+ TravelInfo= TravelInfo { 
+   Destination = Matara
+   Departure Location = Galle }
+} for Monica
+[2024-01-12 09:04] Printing the ticket... 
+Ticket{
+ TicketId=3
+ TicketPrice=3000
+ PassengerInfo= PassengerInfo {  
+   PassengerName = Dave
+   PhoneNumber = 0771234567
+   EmailAddress = dave@gmail.com }
+ TravelInfo= TravelInfo { 
+   Destination = Matara
+   Departure Location = Galle }
+}
+[2024-01-12 09:04] Ticket printed by Dave
+ Ticket : Ticket{
+ TicketId=3
+ TicketPrice=3000
+ PassengerInfo= PassengerInfo {  
+   PassengerName = Dave
+   PhoneNumber = 0771234567
+   EmailAddress = dave@gmail.com }
+ TravelInfo= TravelInfo { 
+   Destination = Matara
+   Departure Location = Galle }
+} for Dave
+[2024-01-12 09:04] Printing the ticket... 
+Ticket{
+ TicketId=1
+ TicketPrice=1000
+ PassengerInfo= PassengerInfo {  
+   PassengerName = John
+   PhoneNumber = 0763205931
+   EmailAddress = john@gmail.com }
+ TravelInfo= TravelInfo { 
+   Destination = Colombo
+   Departure Location = Panadura }
+}
+[2024-01-12 09:04] Ticket printed by John
+ Ticket : Ticket{
+ TicketId=1
+ TicketPrice=1000
+ PassengerInfo= PassengerInfo {  
+   PassengerName = John
+   PhoneNumber = 0763205931
+   EmailAddress = john@gmail.com }
+ TravelInfo= TravelInfo { 
+   Destination = Colombo
+   Departure Location = Panadura }
+} for John

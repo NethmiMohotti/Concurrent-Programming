@@ -1,0 +1,46 @@
+const TICKET_COUNT_MAX = 3 
+range TICKET_RANGE = 0..TICKET_COUNT_MAX 
+
+const PAPER_COUNT_MAX = 3 
+range PAPER_RANGE = 0..PAPER_COUNT_MAX 
+
+set MACHINE_ACTIONS = {acquireMachine, printTicket, acquireRefill, release,
+						refillPrinter, refillPaper, refillToner   } 
+
+
+TICKET_MACHINE(PAPER_COUNT = PAPER_COUNT_MAX) = TICKET_MACHINE[PAPER_COUNT],
+TICKET_MACHINE[y : PAPER_RANGE] =
+	if(y>0)
+	then (acquireMachine -> (printTicket -> release -> TICKET_MACHINE[y-1]))
+		//| paperFilled -> release -> TICKET_MACHINE[y]))
+	else (acquireRefill -> (refillPrinter -> release -> TICKET_MACHINE[PAPER_COUNT_MAX])).
+	//| insufficientPapers -> release -> TICKET_MACHINE[y])).
+
+
+PASSENGER(TICKET_COUNT = TICKET_COUNT_MAX) = PASSENGER[TICKET_COUNT],
+PASSENGER[x:0..TICKET_COUNT] = (
+	acquireMachine -> printTicket[x] ->
+	if (x>1)
+	then (release -> PASSENGER[x-1])
+	else (release -> END)
+)+ MACHINE_ACTIONS / {printTicket/printTicket[x:1..TICKET_COUNT]}.
+
+
+TICKET_TECHNICIAN = (
+	acquireRefill -> refillPaper -> release -> TICKET_TECHNICIAN
+	| wait -> TICKET_TECHNICIAN
+) +MACHINE_ACTIONS.
+
+
+TONER_TECHNICIAN = (
+	acquireRefill -> refillToner -> release -> TONER_TECHNICIAN
+	| wait -> TONER_TECHNICIAN
+) +MACHINE_ACTIONS.
+
+
+|| PURCHASE_TICKET_SYSTEM=
+	(passenger1 : PASSENGER(3)
+	||passenger2 : PASSENGER(2)
+	||tonerTechnician : TONER_TECHNICIAN
+	||ticketTechnician : TICKET_TECHNICIAN
+	||{passenger1, passenger2, tonerTechnician, ticketTechnician} :: TICKET_MACHINE).
