@@ -1,0 +1,18 @@
+DRINKS = (red -> nescafe -> DRINKS | blue -> milo -> DRINKS).
+
+
+FAULTY = (red -> FAULTY |
+			blue -> FAULTY |
+			green -> FAULTY |
+			organge -> kitkat -> FAULTY).
+
+
+
+FAULTY2 = ( orange -> kitkat -> FAULTY2
+| red -> FAULTY2
+| green -> FAULTY2
+| blue -> FAULTY2 ) .
+
+
+
+COIN = (toss -> heads -> COIN | toss->tails->COIN).

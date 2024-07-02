@@ -1,0 +1,81 @@
+Week 10 Tutorial Solution
+
+Exercise 10.2
+
+Download, compile & run the Solution to the Producer/Consumer 
+Problem program ProdConMailboxMonitor that uses the MailboxMonitor 
+as the buffer, as used in Week 09 Lecture.
+
+Make the following modifications & observe how it behaves. Do 
+any errors occur? Each time document any errors that occur, with 
+respect to the correct functioning of the "buffer". 
+
+
+(a)  Execute it several times & observe how it behaves.
+
+ANSWER: 
+The consumer always get the right sequence of values:
+Consumer #1 consumed: < 0 1 2 3 4 5 6 7 8 9 >
+and the Producer & Consumer always terminated.
+
+
+(b)  Experiment by altering the sleep period used by the Producer  
+     & Consumer threads.
+
+ANSWER:
+Altering either the producer's &/or consumer's sleep time upper 
+limit has no bad effect, i.e. consumer always get the right 
+sequence of values and the Producer & Consumer always terminated. 
+
+
+(c)  Experiment by altering the number of "puts" & "takes" that  
+     the Producer & Consumer threads perform, e.g. different numbers. 
+
+ANSWER:
+When producer does 15 puts & consumer does 10 takes then the 
+consumer always gets the right sequence of value & always terminates.  
+BUT the Producer does never terminates because after it has put the 
+11th value "10" in the the MonitorMailbox:
+
+MonitorMailbox.put(10)    [ contents = 10 , available = true ]
+Producer #1 put:   10
+
+it cannot put another value in as "available" will stay true 
+because the consumer has terminated. 
+
+Vice versa when producer does 10 puts & consumer does 15 takes, 
+consumer doesn't terminate. 
+
+
+(d)  Experiment by selectively commenting out the wait() &  
+     notifyAll() methods used in the put & take methods.  What 
+     effect does this have? 
+
+ANSWER:
+
+Commenting out parts of the MonitorMailbox:
+
+take(): "notifyAll( )" 
+It frequently results in deadlock, ie. neither terminates, as both 
+get stuck in the wait set.
+
+
+put(): "notifyAll( )" 
+It always results in deadlock, ie. neither terminates, as both 
+get stuck in the wait set very quickly.
+
+
+take(): "try{ wait( ); } catch(){}" 
+It always results in deadlock, when the consumer gets stuck in 
+the while loop. 
+
+
+put(): "try{ wait( ); } catch(){}" 
+It usually results in deadlock, when the producer gets stuck in 
+the while loop. 
+ 
+
+
+
+
+

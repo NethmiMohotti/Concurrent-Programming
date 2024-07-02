@@ -1,0 +1,141 @@
+/* ----------------------------------------------------------- 
+   File:	 JTS.lts   
+   Module: 	 6SENG006W CP
+   Author:	 P. Howells
+   Description:  FSP process to model Java Thread States & Transitions
+   Modified:	 8/11/22
+   ----------------------------------------------------------- */
+
+const MAX_TIME = 3
+
+range TIME = 0..MAX_TIME
+
+JavaThreadStates = ( new -> NEW ) ,
+
+NEW = ( start -> RUNNABLE ) ,
+
+
+
+RUNNABLE = (   ready    -> RUNNABLE  
+             | dispatch -> RUNNING  
+           ) ,
+
+
+
+RUNNING = (   execute_run_method  -> RUNNING 
+            | quantum_expires     -> RUNNABLE
+            | yield               -> RUNNABLE
+            | interrupt           -> RUNNABLE
+            | failed_acquire_lock -> BLOCKED 
+            | wait                -> WAITING_wait
+            | join                -> WAITING_join
+            | wait_t[ t : TIME ]  -> TIMED_WAITING_wait[ t ]
+            | join_t[ t : TIME ]  -> TIMED_WAITING_join[ t ]
+            | sleep_t[ t : TIME ] -> TIMED_WAITING_sleep[ t ]
+            | exit_run_method     -> TERMINATED 
+           ) ,
+
+
+/* --------- The TERMINATED  State -------------- */
+
+TERMINATED = ( terminated -> END ) ,
+
+
+
+/** ------------------------------------ 
+ * The non-Runnable States: 
+ *    BLOCKED, WAITING, TIMED_WAITING  
+ ------------------------------------ **/
+
+BLOCKED = (   blocked        -> BLOCKED 
+            | lock_released  -> RUNNABLE ) ,
+
+
+/* 
+   WAITING state is represented by: 
+   WAITING_wait & WAITING_join
+*/
+
+
+WAITING_wait =    (     wait_waiting  -> WAITING_wait 
+                      | notify        -> RUNNABLE
+                      | notifyAll     -> RUNNABLE  
+                      | interrupt     -> RUNNABLE     ) ,
+
+
+WAITING_join =  (   join_waiting            -> WAITING_join 
+                  | join_thread_terminates  -> RUNNABLE  
+                  | interrupt               -> RUNNABLE     ) ,
+
+
+/* 
+  TIMED_WAITING state is represented by: 
+  TIMED_WAITING_wait, TIMED_WAITING_join, TIMED_WAITING_sleep
+*/
+
+TIMED_WAITING_wait[ t : TIME ]
+  =      (    when ( t > 0) timed_waiting[ t ] -> TIMED_WAITING_wait[t - 1]
+            | notify                           -> RUNNABLE
+            | notifyAll                        -> RUNNABLE  
+            | when ( t == 0) wait_time_up      -> RUNNABLE
+            | interrupt                        -> RUNNABLE
+         ) ,
+ 
+
+TIMED_WAITING_join[ t : TIME ]
+  =      (    when ( t > 0)  timed_join_waiting[ t ] -> TIMED_WAITING_join[t - 1] 
+            | join_thread_terminates                 -> RUNNABLE  
+            | when ( t == 0) join_time_up[ t ]       -> RUNNABLE
+            | interrupt                              -> RUNNABLE
+         ) ,
+      
+TIMED_WAITING_sleep[ t : TIME ]
+  =     (    when ( t > 0 )  sleeping[ t ]  -> TIMED_WAITING_sleep[t - 1] 
+           | when ( t == 0 ) sleep_time_up  -> RUNNABLE
+           | interrupt                      -> RUNNABLE
+         ) .
+
+/* ----------------------------------------------------------- */
+
+
+/* ----------------------------------------------------------- */
+// How to set up 
+/* ----------------------------------------------------------- */
+
+/*
+MyThread = ( new -> start 
+                 -> ...        // def. run() here 
+                 -> exit_run_method -> END ) .
+
+
+|| JVM_THREAD = (    JavaThreadStates 
+                  || MyThread
+                ) .
+
+*/
+
+
+/* ----------------------------------------------------------- */
+// Testing stuff
+/* ----------------------------------------------------------- */
+
+/**
+RUNNABLE = ( state_RUNNABLE  -> (   ready    -> RUNNABLE  
+                                  | dispatch -> RUNNING  ) 
+           ) ,
+*/
+
+/* 
+RUNNING_start =  (   start_run_method               -> EXEC_RUN_METHOD
+                   | { interrupt, quantum_expires}  -> RUNNABLE
+              ) ,
+
+EXECUTE_RUN_METHOD = // as for RUNNING 
+
+*/
+
+/* ----------------------------------------------------------- */
+
+
+
+

@@ -1,0 +1,63 @@
+Week 10 Tutorial Solution
+
+Exercise 10.1
+
+Download, compile & run the Producer/Consumer Problem program 
+ProdConSimpleMailbox that uses the SimpleMailbox as the buffer, as 
+used in Week 09 Lecture.
+
+Make the following modifications & observe how it behaves. Each 
+time document the various types of errors that occur, with respect  
+to the correct functioning of the "buffer".
+
+
+(a)  Execute it several times & observe how it behaves.
+
+ANSWER: 
+The consumer doesn't get the right sequence of values, as the producer 
+are over writes values  & the consumer takes some values several times.
+
+
+(b)  Experiment by altering the sleep period used by the Producer & 
+     Consumer threads.
+
+ANSWER:
+When sleep time upper limit is: 
+consumer: sleepTime = 1500, 
+producer: sleepTime = 500, 
+then the consumer takes mostly 9s.
+
+When sleep time upper limit is: 
+consumer: sleepTime = 500, 
+producer: sleepTime = 1500, 
+then the consumer takes mostly 0s, 1s & 2s.
+
+
+(c)  Experiment by altering the number of "puts" & "takes" that the 
+     Producer & Consumer threads perform, e.g. different numbers. 
+
+ANSWER:
+When producer does 15 puts & consumer does 10 takes then the consumer  
+usually doesn't take the higher numbers.
+
+When producer does 10 puts & consumer does 15 takes then the consumer  
+usually takes a lot of 9s.
+
+
+
+(d)  Add additional Producer & Consumer threads & modify them as above. 
+
+ANSWER:
+No particular patterns:
+
+Examples:
+Consumer #1 consumed: < 0 1 1 2 3 4 4 5 7 6 >
+Consumer #2 consumed: < 0 1 1 2 3 4 5 5 6 8 >
+
+Consumer #1 consumed: < 0 0 1 2 2 4 5 5 5 6 >
+Consumer #2 consumed: < 0 0 0 2 3 4 5 7 9 9 >
+
+
+
+
+
